@@ -15,7 +15,16 @@ extension.skeleton.header.sectionEnd.search.on.click = {
 	searchPosition: 0,
 	on: {
 		render: function () {
-			this.focus();
+			const ensureFocus = () => {
+				this.focus();
+				this.input?.focus();
+			};
+
+			// Re-focus after paint to keep cursor in the search field reliably.
+			ensureFocus();
+			requestAnimationFrame(ensureFocus);
+			setTimeout(ensureFocus, 0);
+
 			if (this.skeleton.search) {
 				this.value = this.skeleton.search;
 				this.dispatchEvent(new CustomEvent('input'));
@@ -132,9 +141,9 @@ extension.skeleton.header.sectionEnd.search.on.click = {
 							self.setAttribute('results', '');
 
 							search_results = satus.render(skeleton, self.baseProvider);
-							
+
 							// we need global listener here
-							function hidesearch(event) {
+							function hidesearch (event) {
 								// make sure to clean it after closing search results
 								if (!document.body.contains(search_results)) {
 									document.removeEventListener('click', hidesearch);
@@ -155,7 +164,7 @@ extension.skeleton.header.sectionEnd.search.on.click = {
 							}
 
 							document.addEventListener('click', hidesearch);
-							
+
 							if (self.skeleton.searchPosition) {
 								search_results.childNodes[1].scrollTop = self.skeleton.searchPosition;
 							}

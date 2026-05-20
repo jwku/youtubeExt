@@ -10,6 +10,8 @@ window.addEventListener('yt-navigate-finish', function () {
 
 	extension.features.trackWatchedVideos();
 	extension.features.thumbnailsQuality();
+	extension.features.stickyNavigation();
+	extension.features.hideSponsoredVideosOnHome?.();
 });
 
 extension.messages.create();
@@ -28,6 +30,8 @@ function bodyReady() {
 	if (extension.ready && extension.domReady) {
 		extension.features.addScrollToTop();
 		extension.features.font();
+		extension.features.changeThumbnailsPerRow?.();
+		extension.features.clickableLinksInVideoDescriptions();
 	}
 }
 
@@ -40,10 +44,17 @@ extension.events.on('init', function () {
 	extension.features.defaultContentCountry();
 	extension.features.popupWindowButtons();
 	extension.features.disableThumbnailPlayback();
+	extension.features.muteThumbnailPreviews();
 	extension.features.markWatchedVideos();
 	extension.features.relatedVideos();
+	extension.features.stickyNavigation();
+	extension.features.liveChat();
 	extension.features.comments();
 	extension.features.openNewTab();
+	extension.features.removeListParamOnNewTab();
+	extension.features.removeMemberOnly();
+	if ( extension.storage.get('watch_later_buttons') && extension.storage.get('watch_later_buttons') !== 'disabled' ) { 	extension.features.watchLaterButtons(); }
+	// extension.features.hideSponsoredVideosOnHome?.();
 	bodyReady();
 });
 
@@ -55,23 +66,51 @@ chrome.runtime.sendMessage({
 	}
 });
 
-extension.inject([
+function finishPageWorldInit() {
+	extension.ready = true;
+
+	extension.events.trigger('init');
+}
+
+const pageWorldFiles = [
 	'/js&css/web-accessible/core.js',
 	'/js&css/web-accessible/functions.js',
 	'/js&css/web-accessible/www.youtube.com/appearance.js',
 	'/js&css/web-accessible/www.youtube.com/themes.js',
 	'/js&css/web-accessible/www.youtube.com/player.js',
 	'/js&css/web-accessible/www.youtube.com/playlist.js',
+	'/js&css/web-accessible/www.youtube.com/playlist-complete-playlist.js',
 	'/js&css/web-accessible/www.youtube.com/channel.js',
 	'/js&css/web-accessible/www.youtube.com/shortcuts.js',
 	'/js&css/web-accessible/www.youtube.com/blocklist.js',
 	'/js&css/web-accessible/www.youtube.com/settings.js',
+	'/js&css/web-accessible/www.youtube.com/last-watched-overlay.js', // Neue Zeile hinzufügen
+	'/js&css/web-accessible/www.youtube.com/return-youtube-dislike.js',
+	'/js&css/web-accessible/www.youtube.com/return-youtube-dislike.css',
 	'/js&css/web-accessible/init.js'
-], function () {
-	extension.ready = true;
+];
 
-	extension.events.trigger('init');
-});
+if ((navigator.userAgent.indexOf('Safari') !== -1
+	|| (typeof browser !== 'undefined' && browser.runtime?.getURL('')?.startsWith('safari-')))
+	&& (!/Chrom|Android|Windows|Linux/.test(navigator.userAgent)
+		|| /iPhone|iPad/.test(navigator.userAgent)
+	)
+) {
+
+	chrome.runtime.sendMessage({
+		action: 'inject-main-world',
+		files: pageWorldFiles
+	}, function (response) {
+		if (response && response.ok) {
+			finishPageWorldInit();
+		} else {
+			console.warn('Falling back to DOM injection for page-world scripts', chrome.runtime.lastError?.message || response?.error);
+			extension.inject(pageWorldFiles.slice(), finishPageWorldInit);
+		}
+	});
+} else {
+	extension.inject(pageWorldFiles.slice(), finishPageWorldInit);
+}
 
 document.addEventListener('DOMContentLoaded', function () {
 	extension.domReady = true;
@@ -79,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	bodyReady();
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
 	if (request.action === 'focus') {
 		extension.messages.send({
 			focus: true
@@ -143,7 +182,7 @@ document.addEventListener('it-message-from-youtube', function () {
 			chrome.runtime.sendMessage({
 				action: 'fixPopup',
 				width: message.width,
-		        height: message.height,
+				height: message.height,
 				title: message.title,
 			});
 		} else if (message.action === 'analyzer') {
@@ -176,10 +215,10 @@ document.addEventListener('it-message-from-youtube', function () {
 			}
 		} else if (message.action === 'blocklist') {
 			if (!extension.storage.data.blocklist || typeof extension.storage.data.blocklist !== 'object') {
-				extension.storage.data.blocklist = {videos: {}, channels: {}};
+				extension.storage.data.blocklist = { videos: {}, channels: {} };
 			}
 
-			switch(message.type) {
+			switch (message.type) {
 				case 'channel':
 					if (!extension.storage.data.blocklist.channels || typeof extension.storage.data.blocklist.channels !== 'object') {
 						extension.storage.data.blocklist.channels = {};
@@ -233,7 +272,7 @@ document.addEventListener('it-message-from-youtube', function () {
 			});
 		} else if (message.action === 'set') {
 			if (message.value) {
-				chrome.storage.local.set({[message.key]: message.value});
+				chrome.storage.local.set({ [message.key]: message.value });
 			} else {
 				chrome.storage.local.remove([message.key]);
 			}
@@ -241,8 +280,9 @@ document.addEventListener('it-message-from-youtube', function () {
 	}
 });
 
-document.addEventListener('it-play', function (event) {
-	var videos = document.querySelectorAll('video');
-	 try {chrome.runtime.sendMessage({action: 'play'})} 
-       catch(error){console.log(error); setTimeout(function () { try { chrome.runtime.sendMessage({action: 'play'}, function (response) { console.log(response) } );  } catch { } }, 321) }
-	   });
+document.addEventListener('it-play', function () {
+	// var videos = document.querySelectorAll('video');
+	try {
+		chrome.runtime.sendMessage({ action: 'play' })
+	} catch (error) { console.log(error); setTimeout(function () { try { chrome.runtime.sendMessage({ action: 'play' }, function (response) { console.log(response) }); } catch { } }, 321) }
+});

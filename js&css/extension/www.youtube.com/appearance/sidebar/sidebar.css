@@ -13,18 +13,29 @@
 /*--------------------------------------------------------------
 # SIDEBAR AUTO SIZING
 --------------------------------------------------------------*/
-ytd-watch-flexy[flexy] #secondary.ytd-watch-flexy {
+html[it-hide-sidebar='true'] ytd-watch-flexy[flexy] #secondary.ytd-watch-flexy {
 	width: auto !important;
 	min-width: unset !important;
 }
 
-ytd-live-chat-frame,
+html[it-hide-sidebar='true'] ytd-watch-flexy[flexy] #primary.ytd-watch-flexy {
+	max-width: calc(100vw - (var(--ytd-margin-6x)*2)) !important;
+	width: fit-content;
+	min-width: unset !important;
+}
+
+html[it-hide-sidebar='true'] ytd-watch-flexy[flexy] #secondary{
+	container-name: sidebar;
+	container-type: inline-size;
+}
+
+html[it-hide-sidebar='true'] ytd-live-chat-frame,
 div#secondary div#related,
 div#secondary div#panels,
 div#secondary div#donation-shelf,
 div#secondary #playlist {
-	width: var(--ytd-watch-flexy-sidebar-width);
-	min-width: var(--ytd-watch-flexy-sidebar-min-width);
+	max-width: var(--ytd-watch-flexy-sidebar-width);
+	min-width: unset !important;
 }
 /*--------------------------------------------------------------
 # TRANSCRIPT
@@ -131,11 +142,82 @@ html[it-hide-shorts-remixing='true'] #related ytd-reel-shelf-renderer,
 --------------------------------------------------------------*/
 html[it-thumbnails-hide='true'] ytd-watch-next-secondary-results-renderer ytd-thumbnail,
 html[it-thumbnails-hide='true'] ytd-watch-next-secondary-results-renderer ytd-playlist-thumbnail,
+/*update Aug 22th 2025 by @JadonDn:*/ html[it-thumbnails-hide='true'] ytd-watch-next-secondary-results-renderer .yt-lockup-view-model-wiz__content-image,
 /*--------------------------------------------------------------
 # LIVECHAT
 --------------------------------------------------------------*/
-html[it-livechat='hidden'] ytd-live-chat-frame#chat,
-html[it-livechat='hidden'] ytd-watch-flexy[fixed-panels] #panels-full-bleed-container,
+html[it-livechat='hidden'] ytd-live-chat-frame#chat {
+	  display: none !important;
+}
+html[it-livechat='collapsed'] #chat-container:not([it-activated])::before {
+	content: 'Show live chat' !important;
+}
+
+html[it-livechat='collapsed'] #chat-container[it-activated]::before {
+	content: 'Collapse live chat' !important;
+}
+
+html[it-livechat='collapsed'] #chat-container::before {
+	font-family: inherit !important;
+	font-size: 1.6rem !important;
+	font-weight: 400 !important;
+
+	display: flex !important;
+
+	width: 100% !important;
+	height: 48px !important;
+	margin: 0 !important;
+
+	color: var(--yt-spec-text-primary) !important;
+	border-bottom: 1px solid var(--yt-spec-10-percent-layer) !important;
+
+	justify-content: center !important;
+	align-items: center !important;
+}
+
+html[it-livechat='collapsed'] #chat-container:not([it-activated]) > ytd-live-chat-frame#chat {
+	display: none !important;
+}
+
+html[it-livechat='collapsed'][it-livechat='hidden'] ytd-live-chat-frame#chat {
+  display: none !important;
+}
+
+html[it-livechat='collapsed'] 
+#chat-container:not([it-activated])::before, 
+#chat-container[it-activated]::before {
+	background-color: #272727 !important;
+	border-radius: 8px !important;
+	cursor: pointer;
+}
+
+/* Ensure live chat is fully visible and scrollable in theater mode */
+html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy #secondary,
+html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy #secondary-inner,
+html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy #chat-container,
+html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy ytd-live-chat-frame#chat {
+	height: calc(100vh - var(--it-header-size, 56px)) !important;
+	max-height: calc(100vh - var(--it-header-size, 56px)) !important;
+
+	/* Prevent horizontal scrollbar surprises */
+	overflow-x: hidden !important;
+}
+
+@supports (height: 100dvh) {
+	html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy #secondary,
+	html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy #secondary-inner,
+	html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy #chat-container,
+	html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy ytd-live-chat-frame#chat {
+		height: calc(100dvh - var(--it-header-size, 56px)) !important;
+		max-height: calc(100dvh - var(--it-header-size, 56px)) !important;
+	}
+}
+
+/* Only the actual chat should scroll */
+html[it-forced-theater-mode='true'][data-page-type='video'] ytd-watch-flexy ytd-live-chat-frame#chat {
+	overflow-y: auto !important;
+}
+
 /*--------------------------------------------------------------
 # HIDE PLAYLIST
 --------------------------------------------------------------*/
@@ -143,11 +225,13 @@ html[it-hide-playlist='true'] ytd-playlist-panel-renderer#playlist,
 /*--------------------------------------------------------------
 # HIDE RELATED VIDEOS
 --------------------------------------------------------------*/
+html[it-related-videos='hidden'] #related,
 html[it-related-videos='hidden'] #related #contents,
 html[it-related-videos='hidden'] #related #dismissible,
 html[it-related-videos='hidden'] #related > ytd-watch-next-secondary-results-renderer > #items,
 html[data-page-type=video][it-related-videos='hidden'] ytd-compact-video-renderer,
 html[data-page-type=video][it-related-videos='hidetabs'] #related #chips, 
+html[it-hide-sidebar='true'] #related,
 html[it-hide-sidebar='true'] #related > ytd-watch-next-secondary-results-renderer > #items,
 html[it-hide-sidebar='true'] div#secondary div#panels,
 html[it-hide-sidebar='true'] div#secondary div#donation-shelf {
@@ -230,6 +314,17 @@ html[data-page-type=video][it-no-page-margin='true'] ytd-browse > ytd-two-column
 }
 
 /*--------------------------------------------------------------
+# DISABLE SIDEBAR SCROLL
+--------------------------------------------------------------*/
+html[data-page-type=video][it-disable-sidebar-scroll='true']:not([it-comments-sidebar='true']) #secondary,
+html[data-page-type=video][it-disable-sidebar-scroll='true']:not([it-comments-sidebar='true']) #secondary-inner {
+	position: static !important;
+	overflow-y: visible !important;
+	max-height: none !important;
+	height: auto !important;
+}
+
+/*--------------------------------------------------------------
 # MOVE SIDEBAR LEFT
 --------------------------------------------------------------*/
 html[data-page-type=video][it-sidebar-left='true'] #columns>#primary,
@@ -242,9 +337,73 @@ html[data-page-type=video][it-sidebar-left='true'] #columns>#secondary>#related 
 /*--------------------------------------------------------------
 # MOVE THUMBNAILS RIGHT
 --------------------------------------------------------------*/
+/* Move thumbnails to the right for video suggestions */
 html[it-thumbnails-right='true'] #related ytd-watch-next-secondary-results-renderer ytd-thumbnail,
 html[it-thumbnails-right='true'] #related .modern-collection-parent,
-html[it-thumbnails-right='true'] #related ytd-watch-next-secondary-results-renderer ytd-playlist-thumbnail {
+html[it-thumbnails-right='true'] #related ytd-watch-next-secondary-results-renderer ytd-playlist-thumbnail,
+html[it-thumbnails-right='true'] #related ytd-compact-playlist-renderer ytd-thumbnail {
 	order: 5 !important;
 }
+
+/*--------------------------------------------------------------
+# STICKY NAVIGATION
+--------------------------------------------------------------*/
+/* Prevent left navigation from auto-hiding */
+html[it-sticky-navigation='true'] ytd-mini-guide-renderer {
+	transform: translateX(0) !important;
+	transition: none !important;
+}
+
+html[it-sticky-navigation='true'] ytd-mini-guide-renderer[hidden] {
+	display: block !important;
+	transform: translateX(0) !important;
+}
+
+html[it-sticky-navigation='true'] ytd-mini-guide-renderer[aria-hidden="true"] {
+	aria-hidden: false !important;
+	transform: translateX(0) !important;
+}
+
+/* Ensure the guide is always visible */
+html[it-sticky-navigation='true'] ytd-guide-renderer {
+	transform: translateX(0) !important;
+	transition: none !important;
+}
+
+html[it-sticky-navigation='true'] ytd-guide-renderer[hidden] {
+	display: block !important;
+	transform: translateX(0) !important;
+}
+
+html[it-sticky-navigation='true'] ytd-guide-renderer[aria-hidden="true"] {
+	aria-hidden: false !important;
+	transform: translateX(0) !important;
+}
+
+/* Override any auto-hide animations */
+html[it-sticky-navigation='true'] ytd-mini-guide-renderer,
+html[it-sticky-navigation='true'] ytd-guide-renderer {
+	animation: none !important;
+	transition: none !important;
+}
+
+/* Ensure the guide button doesn't hide the navigation */
+html[it-sticky-navigation='true'] ytd-masthead ytd-button-renderer[is="ytd-button-renderer"] {
+	display: none !important;
+}
+
+/* Move thumbnails to the right for playlist suggestions (non-Polymer) */
+html[it-thumbnails-right='true'] #related yt-lockup-view-model .yt-lockup-view-model-wiz {
+	display: flex !important;
+	flex-direction: row-reverse !important;
+	align-items: flex-start !important;
+}
+
+/* Adjust spacing between image and metadata */
+html[it-thumbnails-right='true'] #related yt-lockup-view-model .yt-lockup-view-model-wiz__content-image {
+	margin-left: 12px !important;
+	margin-right: 0 !important;
+}
+
+  
 

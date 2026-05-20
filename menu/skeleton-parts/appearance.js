@@ -8,11 +8,11 @@
 # Footer
 # Sidebar
 --------------------------------------------------------------*/
-satus.storage.onchanged((key, value) => { 
-    if (key === "related_videos" && value === "Titles") {
-        satus.storage.set('relatedVideosPrev', "Titles"); 
-        console.log(satus.storage.get("relatedVideosPrev"));
-    }
+satus.storage.onchanged((key, value) => {
+	if (key === "related_videos" && value === "Titles") {
+		satus.storage.set('relatedVideosPrev', "Titles");
+		console.log(satus.storage.get("relatedVideosPrev"));
+	}
 });
 extension.skeleton.main.layers.section.appearance = {
 	component: "button",
@@ -109,7 +109,7 @@ extension.skeleton.main.layers.section.appearance.on.click.header = {
 			},
 			header_transparent_alternative: {
 				component: "switch",
-				text: "Transparent background alternative"
+				text: "transparentBackgroundAlternative"
 			},
 			header_hide_country_code: {
 				component: "switch",
@@ -134,185 +134,328 @@ extension.skeleton.main.layers.section.appearance.on.click.player = {
 	text: "player",
 	on: {
 		click: {
-			component: "section",
-			variant: "card",
-			forced_theater_mode: {
-				component: "switch",
-				text: "forcedTheaterMode",
-				tags: "wide",
-			},
-			player_size: {
-				component: "select",
-				variant: "player-size",
-				text: "playerSize",
-				options: [{
-					text: "doNotChange",
-					value: "do_not_change"
-				}, {
-					text: "fullWindow",
-					value: "full_window"
-				}, {
-					text: "Max. width within the page",
-					value: "max_width"
-				},  {
-					text: "fitToWindow",
-					value: "fit_to_window"
-				}, {
-					text: "240p",
-					value: "240p"
-				}, {
-					text: "360p",
-					value: "360p"
-				}, {
-					text: "480p",
-					value: "480p"
-				}, {
-					text: "576p",
-					value: "576p"
-				}, {
-					text: "720p",
-					value: "720p"
-				}, {
-					text: "1080p",
-					value: "1080p"
-				}, {
-					text: "1440p",
-					value: "1440p"
-				}, {
-					text: "2160p",
-					value: "2160p"
-				}, {
-					text: "custom",
-					value: "custom"
-				}]
-			},
-			customPlayerSizeSection: {
+			section_1: {
 				component: "section",
-				variant: "custom-player-size",
-
-				custom_player_size_width: {
-					component: "text-field",
-					placeholder: "1280",
-					rows: 1,
-					lineNumbers: false
+				variant: "card",
+				forced_theater_mode: {
+					component: "switch",
+					text: "forcedTheaterMode",
+					tags: "wide",
 				},
-				x: {
-					component: "span",
-					text: "x"
+				player_size: {
+					component: "select",
+					variant: "player-size",
+					text: "playerSize",
+					options: [{
+						text: "doNotChange",
+						value: "do_not_change"
+					}, {
+						text: "fullWindow",
+						value: "full_window"
+					}, {
+						text: "Max. width within the page",
+						value: "max_width"
+					}, {
+						text: "fitToWindow",
+						value: "fit_to_window"
+					}, {
+						text: "240p",
+						value: "240p"
+					}, {
+						text: "360p",
+						value: "360p"
+					}, {
+						text: "480p",
+						value: "480p"
+					}, {
+						text: "576p",
+						value: "576p"
+					}, {
+						text: "720p",
+						value: "720p"
+					}, {
+						text: "1080p",
+						value: "1080p"
+					}, {
+						text: "1440p",
+						value: "1440p"
+					}, {
+						text: "2160p",
+						value: "2160p"
+					}, {
+						text: "custom",
+						value: "custom"
+					}]
 				},
-				custom_player_size_height: {
-					component: "text-field",
-					placeholder: "720",
-					rows: 1,
-					lineNumbers: false
-				}
-			},
-			player_hide_annotations: {
-				component: "switch",
-				text: "hideAnnotations",
-				tags: "hide,remove,elements"
-			},
-			player_hide_cards: {
-				component: "switch",
-				text: "hideCards",
-				tags: "hide,remove,elements"
-			},
-			player_show_cards_on_mouse_hover: {
-				component: "switch",
-				text: "showCardsOnMouseHover",
-				tags: "hide,remove,elements"
-			},
-			player_hide_endscreen: {
-				component: "switch",
-				text: "hideEndscreen"
-			},
-			remove_black_bars: {
-				component: "switch",
-				text: "removeBlackBars",
-				tags: "bars",
-			},
-			player_hide_controls: {
-				component: "select",
-				text: "hidePlayerControlsBar",
-				options: [{
-					text: "off",
-					value: "off",
-					default: "true"
-				}, {
-					text: "whenPaused",
-					value: "when_paused"
-				}, {
-					text: "always",
-					value: "always"
-				}]
-			},
-			player_hide_controls_options: {
-				component: "button",
-				text: "hidePlayerControlsBarButtons",
-				on: {
-					click: {
-						component: "section",
-						variant: "card",
+				customPlayerSizeSection: {
+					component: "section",
+					variant: "custom-player-size",
 
-						player_play_button: {
-							component: "switch",
-							text: "playPause"
-						},
-						player_previous_button: {
-							component: "switch",
-							text: "previousVideo"
-						},
-						player_next_button: {
-							component: "switch",
-							text: "nextVideo"
-						},
-						player_volume_button: {
-							component: "switch",
-							text: "volume"
-						},
-						player_autoplay_button: {
-							component: "switch",
-							text: "autoplay"
-						},
-						player_settings_button: {
-							component: "switch",
-							text: "settings"
-						},
-						player_subtitles_button: {
-							component: "switch",
-							text: "subtitles"
-						},
-						player_miniplayer_button: {
-							component: "switch",
-							text: "nativeMiniPlayer"
-						},
-						player_view_button: {
-							component: "switch",
-							text: "viewMode"
-						},
-						player_screen_button: {
-							component: "switch",
-							text: "screen"
-						},
-						player_remote_button: {
-							component: "switch",
-							text: "remote"
+					custom_player_size_width: {
+						component: "text-field",
+						placeholder: "1280",
+						rows: 1,
+						lineNumbers: false
+					},
+					x: {
+						component: "span",
+						text: "x"
+					},
+					custom_player_size_height: {
+						component: "text-field",
+						placeholder: "720",
+						rows: 1,
+						lineNumbers: false
+					}
+				},
+				player_hide_annotations: {
+					component: "switch",
+					text: "hideAnnotations",
+					tags: "hide,remove,elements"
+				},
+				player_hide_cards: {
+					component: "switch",
+					text: "hideCards",
+					tags: "hide,remove,elements"
+				},
+				player_show_cards_on_mouse_hover: {
+					component: "switch",
+					text: "showCardsOnMouseHover",
+					tags: "hide,remove,elements"
+				},
+				player_hide_endscreen: {
+					component: "switch",
+					text: "hideEndscreen"
+				},
+				hide_includes_paid_promotion: {
+					component: 'switch',
+					text: 'hideIncludesPaidPromotion',
+					storage: 'hide_includes_paid_promotion',
+				},
+				remove_black_bars: {
+					component: "switch",
+					text: "removeBlackBars",
+					tags: "bars",
+				},
+				player_hide_controls: {
+					component: "select",
+					text: "hidePlayerControlsBar",
+					options: [{
+						text: "off",
+						value: "off",
+						default: "true"
+					}, {
+						text: "whenPaused",
+						value: "when_paused"
+					}, {
+						text: "always",
+						value: "always"
+					}]
+				},
+				player_hide_progress_preview: {
+					component: 'switch',
+					text: 'hideProgressBarPreview',
+					storage: 'player_hide_progress_preview',
+				},
+				player_hide_controls_options: {
+					component: "button",
+					text: "hidePlayerControlsBarButtons",
+					on: {
+						click: {
+							component: "section",
+							variant: "card",
+
+							player_play_button: {
+								component: "switch",
+								text: "playPause"
+							},
+							player_previous_button: {
+								component: "switch",
+								text: "previousVideo"
+							},
+							player_next_button: {
+								component: "switch",
+								text: "nextVideo"
+							},
+							player_volume_button: {
+								component: "switch",
+								text: "volume"
+							},
+							player_autoplay_button: {
+								component: "switch",
+								text: "autoplay"
+							},
+							player_settings_button: {
+								component: "switch",
+								text: "settings"
+							},
+							player_subtitles_button: {
+								component: "switch",
+								text: "subtitles"
+							},
+							player_subtitlesLine_button: {
+								component: "switch",
+								text: "subtitleLine"
+							},
+							player_miniplayer_button: {
+								component: "switch",
+								text: "nativeMiniPlayer"
+							},
+							player_view_button: {
+								component: "switch",
+								text: "viewMode"
+							},
+							player_screen_button: {
+								component: "switch",
+								text: "screen"
+							},
+							player_remote_button: {
+								component: "switch",
+								text: "remote"
+							},
+							player_chaptertitle_button: {
+								component: "switch",
+								text: "chapterTitle"
+							}
 						}
 					}
-				}
-			},
-			hide_gradient_bottom: {
+				},
+				hide_gradient_bottom: {
+					component: "switch",
+					text: "hideGradientBottom"
+				},
+				always_show_progress_bar: {
+					component: "switch",
+					text: "alwaysShowProgressBar"
+				},
+				player_color: {
+					component: "select",
+					text: "playerColor",
+					options: [{
+						text: "default",
+						value: "default"
+					}, {
+						text: "red",
+						value: "red"
+					}, {
+						text: "pink",
+						value: "pink"
+					}, {
+						text: "purple",
+						value: "purple"
+					}, {
+						text: "deepPurple",
+						value: "deep_purple"
+					}, {
+						text: "indigo",
+						value: "indigo"
+					}, {
+						text: "blue",
+						value: "blue"
+					}, {
+						text: "lightBlue",
+						value: "light_blue"
+					}, {
+						text: "cyan",
+						value: "cyan"
+					}, {
+						text: "teal",
+						value: "teal"
+					}, {
+						text: "green",
+						value: "green"
+					}, {
+						text: "lightGreen",
+						value: "light_green"
+					}, {
+						text: "lime",
+						value: "lime"
+					}, {
+						text: "yellow",
+						value: "yellow"
+					}, {
+						text: "amber",
+						value: "amber"
+					}, {
+						text: "orange",
+						value: "orange"
+					}, {
+						text: "deepOrange",
+						value: "deep_orange"
+					}, {
+						text: "brown",
+						value: "brown"
+					}, {
+						text: "blueGray",
+						value: "blue_gray"
+					}, {
+						text: "white",
+						value: "white"
+					}],
+					tags: "style"
+				},
+				player_transparent_background: {
+					component: "switch",
+					text: "transparentBackground"
+				},
+				player_hide_skip_overlay: {
+					component: "switch",
+					text: "hideSkipOverlay",
+					value: false,
+					tags: "remove,hide"
+				},
+				player_remaining_duration: {
+					component: "switch",
+					text: "showRemainingDuration",
+					id: "show-remaining-duration",
+					value: false
+				},
+				duration_with_speed: {
+					component: "switch",
+					text: "durationWithSpeed",
+					value: false
+				},
+				player_hd_thumbnail: {
+					component: "switch",
+					text: "hdThumbnail",
+					tags: "preview",
+					on: {
+						render: function() {
+							var maxPhysicalWidth = window.screen.width * (window.devicePixelRatio || 1);
+
+							if (maxPhysicalWidth < 1000) {
+								this.style.display = 'none';
+							} else {
+								this.style.display = '';
+							}
+						}
+					}
+				},
+				hide_scroll_for_details: {
+					component: "switch",
+					text: "hideScrollForDetails",
+					tags: "remove,hide"
+				},
+				hide_top_loading_bar: {
+					component: "switch",
+					text: "hideTopLoadingBar",
+					tags: "remove,hide"
+				},
+				hide_gradient_bottom: {
 				component: "switch",
 				text: "hideGradientBottom"
-			},
-			always_show_progress_bar: {
+				},
+				always_show_progress_bar: {
 				component: "switch",
 				text: "alwaysShowProgressBar"
-			},
-			player_color: {
+				},
+				player_color: {
 				component: "select",
 				text: "playerColor",
 				options: [{
+					text: "default",
+					value: "default"
+				}, {
 					text: "red",
 					value: "red"
 				}, {
@@ -382,35 +525,55 @@ extension.skeleton.main.layers.section.appearance.on.click.player = {
 				value: false,
 				tags: "remove,hide"
 			},
-			player_remaining_duration: {
+			player_hide_pause_overlay: {
 				component: "switch",
-				text: "showRemainingDuration",
-				id: "show-remaining-duration",
-				value: false
+				text: "hidePauseOverlay",
+				value: false,
+				tags: "remove,hide,pause,bezel"
 			},
 			duration_with_speed: {
 				component: "switch",
 				text: "durationWithSpeed",
 				value: false
 			},
-			player_hd_thumbnail: {
-				component: "switch",
-				text: "hdThumbnail",
-				tags: "preview"
-			},
 			hide_scroll_for_details: {
 				component: "switch",
 				text: "hideScrollForDetails",
 				tags: "remove,hide"
-			}			
+			},
+			hide_top_loading_bar: {
+				component: "switch",
+				text: "hideTopLoadingBar",
+				tags: "remove,hide"
+			}
+		},	
+			section_2: {
+				component: 'section',
+				variant: 'card',
+				title: 'Shorts',
+				shorts_always_show_buttons: {
+					component: 'section',
+					variant: 'card',
+					text: 'shortsAlwaysShowButtons',
+					shorts_always_show_captions: {
+						component: 'switch',
+						text: 'shortsAlwaysShowCaptions'
+					},
+					shorts_always_show_fullscreen: {
+						component: 'switch',
+						text: 'shortsAlwaysShowFullscreen'
+					}
+				}
+			}
 		}
 	}
+
+
 };
 
 /*--------------------------------------------------------------
 # DETAILS
 --------------------------------------------------------------*/
-
 
 extension.skeleton.main.layers.section.appearance.on.click.details = {
 	component: "button",
@@ -439,14 +602,23 @@ extension.skeleton.main.layers.section.appearance.on.click.details = {
 				text: "hideDate",
 				tags: "hide,remove"
 			},
+			disable_likes_animation: {
+				component: "switch",
+				text: "disableLikesAnimation",
+				tags: "likes,animation,disable"
+			},
 			api: {
 				component: 'section',
 				variant: 'card',
 				title: 'Currently_requiring_a_YouTube_API_key',
-    
+
 				how_long_ago_the_video_was_uploaded: {
 					component: "switch",
 					text: "howLongAgoTheVideoWasUploaded"
+				},
+				exact_date: {
+					component: "switch",
+					text: "showExactDate"
 				},
 				channel_videos_count: {
 					component: "switch",
@@ -460,19 +632,19 @@ extension.skeleton.main.layers.section.appearance.on.click.description = {
 	component: "select",
 	variant: "description",
 	text: "description",
-				options: [{
-					text: "normal",
-					value: "normal"
-				}, {
-					text: "expanded",
-					value: "expanded"
-				}, {
-					text: "sidebar",
-					value: "sidebar"
-				}, {
-					text: "hidden",
-					value: "hidden"
-				}/*, {
+	options: [{
+		text: "normal",
+		value: "normal"
+	}, {
+		text: "expanded",
+		value: "expanded"
+	}, {
+		text: "sidebar",
+		value: "sidebar"
+	}, {
+		text: "hidden",
+		value: "hidden"
+	}/*, {
 					text: "Classic",
 					value: "classic"
 				}, {
@@ -483,242 +655,271 @@ extension.skeleton.main.layers.section.appearance.on.click.description = {
 					value: "classic_hidden"
 				}*/],
 	tags: "hide,remove"
-};			
+};
 
 extension.skeleton.main.layers.section.appearance.on.click.hide_detail_button = {
 	component: "button",
-	text: "Buttons",
+	text: "buttons",
 	variant: "detailButton",
 	on: {
-					click: {
-						component: 'section',
-						variant: 'card',
-						extraButtons: {
-							component: 'section',
-							variant: 'card',
-							title: 'ExtraButtons',
+		click: {
+			component: 'section',
+			variant: 'card',
+			extraButtons: {
+				component: 'section',
+				variant: 'card',
+				title: 'ExtraButtons',
 
-							below_player_screenshot: {
-								component: 'switch',
-								text: 'screenshot',
-								value: true
-							},
-							below_player_pip: {
-								component: 'switch',
-								text: 'pictureInPicture',
-								value: true
-							},
-							below_player_loop: {
-								component: 'switch',
-								text: 'loop',
-								value: true
-							}
-						},
-						youtubeDetailButtons: {
-							component: "select",
-							text: "youTubeButtons",
-							options: [{
-								text: "normal",
-								value: "normal"
-							}, {
-								text: 'removeNames',
-								value: "remove_labels"
-							}, {
-								text: 'halfTransparent',
-								value: "half_transparent"
-							}, {
-								text: 'Remove',
-								value: "remove"
-							}, {
-								text: 'TransparentBackground',
-								value: "transparent_background"
-							}, {
-								text: "hide_labels",
-								value: "hide_labels"
-							}, {
-								text: 'removeIcons',
-								value: "remove_icons"
-							}],
-							tags: "hide,remove"
-						},
-						detailButtons: {
-							component: 'section',
-							variant: 'card',
-							purchase: {
-								component: "select",
-								text: "purchase",
-								options: [{
-									text: "normal",
-									value: "normal"
-								}, {
-									text: "removeName",
-									value: "remove_label"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove,purchase-button"
-							},
-							join: {
-								component: "select",
-								text: "join",
-								options: [{
-									text: "normal",
-									value: "normal"
-								}, {
-									text: "removeName",
-									value: "remove_label"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove,join-button"
-							},
-							subscribe: {
-								component: "select",
-								text: "subscribe",
-								options: [{
-									text: "normal",
-									value: "normal"
-								}, {
-									text: "removeName",
-									value: "remove_label"
-								}, {
-									text: "grey",
-									value: "grey"
-								}, {
-									text: "transparentColor",
-									value: "transparent"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove,subscribe-button"
-							},
-							likes: {
-								component: "select",
-								text: "like",
-								options: [{
-									text: "normal",
-									value: "normal"
-								}, {
-									text: "iconsOnly",
-									value: "icons_only"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							hide_dislike_button: {
-								component: "select",
-								text: "dislike",
-								options: [{
-									text: 'normal',
-									value: "normal"
-								}, {
-									text: 'iconsOnly',
-									value: "icons_only"
-								}, {
-									text: 'hidden',
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							red_dislike_button: {
-								component: 'switch',
-								text: "redDislikeButton"
-							},
-							hide_share_button: {
-								component: "select",
-								text: "share",
-								options: [{
-									text: "normal",
-									value: "normal"
-								}, {
-									text: "iconsOnly",
-									value: "icons_only"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							hide_download_button: {
-								component: "select",
-								text: 'Download',
-								options: [{
-									text: "normal",
-									value: "normal"
-								}, {
-									text: "iconsOnly",
-									value: "icons_only"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							hide_thanks_button: {
-								component: "select",
-								text: 'thanks',
-								options: [{
-									text: 'normal',
-									value: "normal"
-								}, {
-									text: 'iconsOnly',
-									value: "icons_only"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							hide_clip_button: {
-								component: "select",
-								text: 'clip',
-								options: [{
-									text: 'normal',
-									value: "normal"
-								}, {
-									text: 'iconsOnly',
-									value: "icons_only"
-								}, {
-									text: "hidden",
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							hide_save_button: {
-								component: "select",
-								text: 'save',
-								options: [{
-									text: 'normal',
-									value: "normal"
-								}, {
-									text: 'iconsOnly',
-									value: "icons_only"
-								}, {
-									text: 'hidden',
-									value: "hidden"
-								}],
-								tags: "hide,remove"
-							},
-							hide_report_button: {
-								component: "switch",
-								text: 'hideReport',
-								tags: "hide,remove"
-							},
-							hide_more_button: {
-								component: "switch",
-								text: 'hideMore',
-								tags: "hide,remove"
-							}
-						}
-					}
+				below_player_screenshot: {
+					component: 'switch',
+					text: 'screenshot',
+					value: true
+				},
+				below_player_pip: {
+					component: 'switch',
+					text: 'pictureInPicture',
+					value: true
+				},
+				below_player_loop: {
+					component: 'switch',
+					text: 'loop',
+					value: true
+				},
+				below_player_keyscene: {
+					component: 'switch',
+					text: 'keyScene',
+					value: true
+				}
+			},
+			youtubeDetailButtons: {
+				component: "select",
+				text: "youTubeButtons",
+				options: [{
+					text: "normal",
+					value: "normal"
+				}, {
+					text: 'removeNames',
+					value: "remove_labels"
+				}, {
+					text: 'halfTransparent',
+					value: "half_transparent"
+				}, {
+					text: 'Remove',
+					value: "remove"
+				}, {
+					text: 'TransparentBackground',
+					value: "transparent_background"
+				}, {
+					text: "hide_labels",
+					value: "hide_labels"
+				}, {
+					text: 'removeIcons',
+					value: "remove_icons"
+				}],
+				tags: "hide,remove"
+			},
+			detailButtons: {
+				component: 'section',
+				variant: 'card',
+				purchase: {
+					component: "select",
+					text: "purchase",
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "removeName",
+						value: "remove_label"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove,purchase-button"
+				},
+				join: {
+					component: "select",
+					text: "join",
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "removeName",
+						value: "remove_label"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove,join-button"
+				},
+				subscribe: {
+					component: "select",
+					text: "subscribe",
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "removeName",
+						value: "remove_label"
+					}, {
+						text: "grey",
+						value: "grey"
+					}, {
+						text: "transparentColor",
+						value: "transparent"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove,subscribe-button"
+				},
+				likes: {
+					component: "select",
+					text: "like",
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "iconsOnly",
+						value: "icons_only"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_dislike_button: {
+					component: "select",
+					text: "dislike",
+					options: [{
+						text: 'normal',
+						value: "normal"
+					}, {
+						text: 'iconsOnly',
+						value: "icons_only"
+					}, {
+						text: 'hidden',
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				red_dislike_button: {
+					component: 'switch',
+					text: "redDislikeButton"
+				},
+				hide_share_button: {
+					component: "select",
+					text: "share",
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "iconsOnly",
+						value: "icons_only"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_ask_button: {
+					component: "select",
+					text: "ask",
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "iconsOnly",
+						value: "icons_only"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_download_button: {
+					component: "select",
+					text: 'download',
+					options: [{
+						text: "normal",
+						value: "normal"
+					}, {
+						text: "iconsOnly",
+						value: "icons_only"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_thanks_button: {
+					component: "select",
+					text: 'thanks',
+					options: [{
+						text: 'normal',
+						value: "normal"
+					}, {
+						text: 'iconsOnly',
+						value: "icons_only"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_clip_button: {
+					component: "select",
+					text: 'clip',
+					options: [{
+						text: 'normal',
+						value: "normal"
+					}, {
+						text: 'iconsOnly',
+						value: "icons_only"
+					}, {
+						text: "hidden",
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_save_button: {
+					component: "select",
+					text: 'save',
+					options: [{
+						text: 'normal',
+						value: "normal"
+					}, {
+						text: 'iconsOnly',
+						value: "icons_only"
+					}, {
+						text: 'hidden',
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_report_button: {
+					component: "select",
+					text: 'report',
+					options: [{
+						text: 'normal',
+						value: "normal"
+					}, {
+						text: 'iconsOnly',
+						value: "icons_only"
+					}, {
+						text: 'hidden',
+						value: "hidden"
+					}],
+					tags: "hide,remove"
+				},
+				hide_more_button: {
+					component: "switch",
+					text: 'hideMore',
+					tags: "hide,remove"
+				}
+			}
 		}
+	}
 }
-
 
 /*--------------------------------------------------------------
 # COMMENTS
@@ -766,7 +967,7 @@ extension.skeleton.main.layers.section.appearance.on.click.comments = {
 			columns: {
 				component: "switch",
 				text: "columns",
-				value: true				
+				value: true
 			},
 			squared_user_images: {
 				component: 'switch',
@@ -787,7 +988,7 @@ extension.skeleton.main.layers.section.appearance.on.click.comments = {
 };
 
 /*--------------------------------------------------------------
-# POPUP AD 
+# POPUP AD
 --------------------------------------------------------------*/
 
 extension.skeleton.main.layers.section.appearance.on.click.popup_ad = {
@@ -796,7 +997,6 @@ extension.skeleton.main.layers.section.appearance.on.click.popup_ad = {
 	text: "popupAd",
 	tags: "bottom"
 };
-
 
 /*--------------------------------------------------------------
 # SIDEBAR
@@ -833,21 +1033,22 @@ extension.skeleton.main.layers.section.appearance.on.click.sidebar = {
 					text: "collapsed",
 					value: "collapsed"
 				}, {
-                			text: 'Hide_the_tabs_only',
-		           		value: "hidetabs"
+					text: 'Hide_the_tabs_only',
+					value: "hidetabs"
 				}],
 				tags: "right",
 				on: {
 					click: function () {
-						setTimeout(() => {							
-						if (satus.storage.get('related_videos')==="Titles" 
-							&& satus.storage.get("relatedVideosPrev") ==="Titles") {if (!satus.storage.get('thumbnails_right')) {
-								this.nextSibling.nextSibling.click();
-								satus.storage.set('relatedVideosPrev', "notTitles")
-								} 
-						} 			
-						}, 650) 
-																			
+						setTimeout(() => {
+							if (satus.storage.get('related_videos') === "Titles"
+								&& satus.storage.get("relatedVideosPrev") === "Titles") {
+								if (!satus.storage.get('thumbnails_right')) {
+									this.nextSibling.nextSibling.click();
+									satus.storage.set('relatedVideosPrev', "notTitles")
+								}
+							}
+						}, 650)
+
 					}
 				}
 			},
@@ -869,13 +1070,15 @@ extension.skeleton.main.layers.section.appearance.on.click.sidebar = {
 				value: false,
 				id: 'transcript',
 				on: {
-					click: function () {  setTimeout(() => {
-						if (satus.storage.get('transcript')) {
-							if (satus.storage.get('no_page_margin')) {
-								this.nextSibling.nextSibling.click();
+					click: function () {
+						setTimeout(() => {
+							if (satus.storage.get('transcript')) {
+								if (satus.storage.get('no_page_margin')) {
+									this.nextSibling.nextSibling.click();
+								}
 							}
-						}
-					}, 250); }
+						}, 250);
+					}
 				}
 			},
 			compact_spacing: {
@@ -886,16 +1089,18 @@ extension.skeleton.main.layers.section.appearance.on.click.sidebar = {
 			no_page_margin: {
 				component: 'switch',
 				text: 'To_the_side_No_page_margin',
-				
+
 				value: false,
 				on: {
-					click: function () {  setTimeout(() => {
-						if (satus.storage.get('no_page_margin')) {
-							if (satus.storage.get('transcript')) {
-								this.previousSibling.previousSibling.click();
+					click: function () {
+						setTimeout(() => {
+							if (satus.storage.get('no_page_margin')) {
+								if (satus.storage.get('transcript')) {
+									this.previousSibling.previousSibling.click();
+								}
 							}
-						}
-					}, 250); }
+						}, 250);
+					}
 				}
 			},
 			chapters: {
@@ -905,7 +1110,7 @@ extension.skeleton.main.layers.section.appearance.on.click.sidebar = {
 			hide_shorts_remixing: {
 				component: "switch",
 				text: 'Hide_Shorts_remixing_this_video'
-			},			
+			},
 			livechat: {
 				component: "select",
 				text: 'liveChat',
@@ -924,6 +1129,10 @@ extension.skeleton.main.layers.section.appearance.on.click.sidebar = {
 			hide_playlist: {
 				component: "switch",
 				text: 'hidePlaylist'
+			},
+			disable_sidebar_scroll: {
+				component: "switch",
+				text: "disableSidebarScroll"
 			},
 			hide_sidebar: {
 				component: "switch",

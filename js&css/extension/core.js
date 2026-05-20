@@ -37,7 +37,6 @@ var extension = {
 	}
 };
 
-
 /*--------------------------------------------------------------
 # CAMELIZE
 --------------------------------------------------------------*/
@@ -59,7 +58,6 @@ extension.camelize = function (string) {
 
 	return result;
 };
-
 
 /*--------------------------------------------------------------
 # EVENTS
@@ -91,7 +89,6 @@ extension.events.on = function (type, listener, options = {}) {
 	}
 };
 
-
 /*--------------------------------------------------------------
 # TRIGGER
 --------------------------------------------------------------*/
@@ -104,7 +101,7 @@ extension.events.trigger = async function (type, data) {
 			var listener = listeners[i];
 
 			if (typeof listener === 'function') {
-				if (listener instanceof(async function () {}).constructor === true) {
+				if (listener instanceof (async function () { }).constructor === true) {
 					await listener(data);
 				} else {
 					listener(data);
@@ -117,7 +114,7 @@ extension.events.trigger = async function (type, data) {
 /*--------------------------------------------------------------
 # INJECT
 ----------------------------------------------------------------
-	
+
 --------------------------------------------------------------*/
 
 extension.inject = function (paths, callback) {
@@ -178,7 +175,6 @@ extension.inject = function (paths, callback) {
 	}
 };*/
 
-
 /*--------------------------------------------------------------
 # MESSAGES
 ----------------------------------------------------------------
@@ -234,7 +230,6 @@ extension.messages.send = function (message) {
 	}
 };
 
-
 /*--------------------------------------------------------------
 # STORAGE
 --------------------------------------------------------------*/
@@ -279,7 +274,7 @@ extension.storage.listener = function () {
 			document.documentElement.setAttribute('it-' + key.replace(/_/g, '-'), value);
 
 			if (typeof extension.features[camelized_key] === 'function') {
-				extension.features[camelized_key](true);
+				extension.features[camelized_key](value);
 			}
 
 			extension.events.trigger('storage-changed', {
@@ -308,7 +303,7 @@ extension.storage.load = function (callback) {
 		// initialize theme in case YT is in Dark cookie mode
 		if (!extension.storage.data['theme'] && document.documentElement.hasAttribute('dark')) {
 			extension.storage.data['theme'] = 'dark';
-			chrome.storage.local.set({theme: 'dark'});
+			chrome.storage.local.set({ theme: 'dark' });
 		}
 
 		for (const key in items) {
